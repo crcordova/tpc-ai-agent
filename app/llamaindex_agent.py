@@ -84,22 +84,11 @@ class LlamaIndexPricingAgent:
             logger.info(f"Gathering data for {commodity}...")
             
             try:
-                # Obtener datos en paralelo
-                forecast_task = asyncio.to_thread(
-                    GetMonteCarloForecast.invoke,
-                    {"commodity": commodity, "days": 5}
-                )
-                
-                price_task = asyncio.to_thread(
-                    getForecastPrice.invoke,
-                    {"commodity": commodity}
-                )
-                
-                volatility_task = asyncio.to_thread(
-                    getForecastVolatility.invoke,
-                    {"commodity": commodity}
-                )
-                
+             
+                forecast_task = asyncio.to_thread(GetMonteCarloForecast, commodity, 5)
+                price_task = asyncio.to_thread(getForecastPrice, commodity)
+                volatility_task = asyncio.to_thread(getForecastVolatility, commodity)
+
                 # Esperar resultados
                 forecast_data, price_data, volatility_data = await asyncio.gather(
                     forecast_task, price_task, volatility_task,

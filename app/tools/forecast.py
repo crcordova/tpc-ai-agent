@@ -1,7 +1,6 @@
 import boto3
 import pandas as pd
 from io import StringIO
-from langchain.tools import tool
 from app.config import AWS_ACCESS_KEY, AWS_SECRET_KEY, S3_BUCKET
 
 s3 = boto3.client(
@@ -10,7 +9,6 @@ s3 = boto3.client(
     aws_secret_access_key=AWS_SECRET_KEY
 )
 
-@tool
 def GetMonteCarloForecast(commodity: str, days: int = 5) -> dict:
     """
     Get price range simulation based in Montecarlo Method
@@ -43,7 +41,6 @@ def GetMonteCarloForecast(commodity: str, days: int = 5) -> dict:
         "lower": float(r["lower"]),
     }
 
-@tool
 def getForecastPrice(commodity: str, ):
     """
     Get price forecast for a specific commodity.
@@ -74,7 +71,6 @@ def getForecastPrice(commodity: str, ):
 
     }
 
-@tool
 def getForecastVolatility(commodity: str):
     """
     Get volatility forecast for a specific commodity.
